@@ -2,7 +2,7 @@
 
 This repository contains all publicly known hints for GSMG.IO 5 BTC puzzle challenge. Contributions are welcome!
 
-If you find this useful, please donate BTC at [1JK27jtvE1wS4VG9k7Zpo8wBufMbYwy3r8](https://www.blockchain.com/btc/address/1JK27jtvE1wS4VG9k7Zpo8wBufMbYwy3r8)
+If you find this useful, please donate BTC at [bc1q4ulncg534st8xvpgapx5su72uvnm6jyskfm7c4](https://www.blockchain.com/btc/address/bc1q4ulncg534st8xvpgapx5su72uvnm6jyskfm7c4)
 
 
 - [Summary](#summary)
