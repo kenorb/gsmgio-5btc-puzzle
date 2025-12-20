@@ -1,0 +1,112 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>GSMG Puzzle Simulation Report</title>
+  <style>
+    body { font-family: 'Segoe UI', Tahoma, sans-serif; margin: 32px; color: #222; }
+    h1, h2, h3 { color: #1f3b73; }
+    code, pre { background: #f4f7fb; padding: 2px 4px; border-radius: 4px; }
+    pre { padding: 12px; }
+    table { border-collapse: collapse; width: 100%; }
+    th, td { border: 1px solid #d1d8e0; padding: 8px; text-align: left; }
+    th { background: #eef2f7; }
+    .status { margin-right: 8px; }
+    ul.details { margin: 6px 0 6px 24px; color: #4a5568; }
+    ul.children { margin-left: 20px; }
+    .card { border: 1px solid #d9e1f2; padding: 16px; border-radius: 8px; margin-bottom: 18px; }
+  </style>
+</head>
+<body>
+  <h1>GSMG.IO Puzzle Simulation Report</h1>
+  <p>Generated: 2025-12-19T00:27:28.962792+00:00</p>
+
+  <div class="card">
+    <h2>Checklist</h2>
+    <ul class="checklist"><li><span class='status'>⬜</span> <span class='title'>Puzzle simulation checklist</span><ul class='details'></ul><ul class='children'><li><span class='status'>⬜</span> <span class='title'>Phase 1: Spiral decode</span><ul class='details'></ul><ul class='children'><li><span class='status'>✅</span> <span class='title'>Build matrix</span><ul class='details'><li class='detail'>Matrix loaded</li></ul><ul class='children'></ul></li><li><span class='status'>✅</span> <span class='title'>Spiral traversal</span><ul class='details'><li class='detail'>Bits collected: 196</li></ul><ul class='children'></ul></li><li><span class='status'>✅</span> <span class='title'>ASCII decode</span><ul class='details'><li class='detail'>Message: gsmg.io/theseedisplanted</li></ul><ul class='children'></ul></li></ul></li><li><span class='status'>⬜</span> <span class='title'>Phase 2: Hidden form password</span><ul class='details'></ul><ul class='children'><li><span class='status'>✅</span> <span class='title'>Record password string</span><ul class='details'><li class='detail'>Password recorded from hint</li></ul><ul class='children'></ul></li><li><span class='status'>✅</span> <span class='title'>Compute SHA256 for causality</span><ul class='details'><li class='detail'>SHA256(causality)=eb3efb5151e6255994711fe8f2264427ceeebf88109e1d7fad5b0a8b6d07e5bf</li></ul><ul class='children'></ul></li></ul></li><li><span class='status'>⬜</span> <span class='title'>Phase 3: AES setup</span><ul class='details'></ul><ul class='children'><li><span class='status'>✅</span> <span class='title'>Compute phase 3 concatenated hash</span><ul class='details'><li class='detail'>SHA256(phase3 concat)=1a57c572caf3cf722e41f5f9cf99ffacff06728a43032dd44c481c77d2ec30d5</li></ul><ul class='children'></ul></li><li><span class='status'>✅</span> <span class='title'>Compute phase 3.2 hash</span><ul class='details'><li class='detail'>SHA256(phase3.2)=250f37726d6862939f723edc4f993fde9d33c6004aab4f2203d9ee489d61ce4c</li></ul><ul class='children'></ul></li></ul></li><li><span class='status'>⬜</span> <span class='title'>Salphaseion: decode and attempt AES</span><ul class='details'></ul><ul class='children'><li><span class='status'>✅</span> <span class='title'>Decode ABBA strings</span><ul class='details'><li class='detail'>ABBA decode: matrixsumlist, enter</li></ul><ul class='children'></ul></li><li><span class='status'>✅</span> <span class='title'>Decode a-i-o numeric text</span><ul class='details'><li class='detail'>a-i-o decode: lastwordsbeforearchichoice, thispassword</li></ul><ul class='children'></ul></li><li><span class='status'>✅</span> <span class='title'>Attempt AES blob candidates</span><ul class='details'><li class='detail'>AES attempts completed</li></ul><ul class='children'></ul></li></ul></li></ul></li></ul>
+    <p><strong>Run time:</strong> 0.13s across 9 AES attempts.</p>
+  </div>
+
+  <div class="card">
+    <h2>Phase 1: Spiral Decode</h2>
+    <p><strong>Spiral bits (preview):</strong> 01100111 01110011 01101101 01100111 00101110 01101001 01101111 00101111 01110100 01101000 01100101 01110011 01100101 01100101 01100100 01101001 01110011 01110000 01101100 01100001 ...</p>
+    <p><strong>Decoded message:</strong> <code>gsmg.io/theseedisplanted</code></p>
+    <p><strong>SHA256(gsmg.io/theseedisplanted):</strong> 3a3f0e245360d51ea41f55c7db8a13f270fbf3dcef3b4f94ac1c4b3cee8db2e9</p>
+  </div>
+
+  <div class="card">
+    <h2>Phase 2: Hidden Form &amp; Hash</h2>
+    <p>Password from hint: <code>theflowerblossomsthroughwhatseemstobeaconcretesurface</code></p>
+    <p>SHA256(causality): <code>eb3efb5151e6255994711fe8f2264427ceeebf88109e1d7fad5b0a8b6d07e5bf</code></p>
+  </div>
+
+  <div class="card">
+    <h2>Phase 3: AES Preparation</h2>
+    <p>Concatenated password hash:</p>
+    <pre>1a57c572caf3cf722e41f5f9cf99ffacff06728a43032dd44c481c77d2ec30d5</pre>
+    <p>Phase 3.2 hash:</p>
+    <pre>250f37726d6862939f723edc4f993fde9d33c6004aab4f2203d9ee489d61ce4c</pre>
+  </div>
+
+  <div class="card">
+    <h2>Salphaseion Decoding</h2>
+    <p><strong>ABBA decoded:</strong> matrixsumlist / enter</p>
+    <p><strong>Numeric decode:</strong></p>
+    <ul>
+      <li>Digits: 174161018595377387932283725836301293648834223172419022725145445</li>
+      <li>Hex: 6c617374776f7264736265666f7265617263686963686f696365</li>
+      <li>Text: lastwordsbeforearchichoice</li>
+    </ul>
+    <ul>
+      <li>Digits: 36026487402470099740341006948</li>
+      <li>Hex: 7468697370617373776f7264</li>
+      <li>Text: thispassword</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>AES Blob Attempts (Experimental)</h2>
+    <table>
+      <thead>
+        <tr><th>Candidate</th><th>Key</th><th>Printable?</th><th>Outcome</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>matrixsumlist</td><td><code>e7546e3076294907ed2a0ecaa9c33062f6e602b7c74c5aa5cc865df0ff345507</code></td><td>✅</td><td>printable: .��	S|�B�&gt;�r� 
+X^.N2N�vV�~ז�۷%���~��,o�{s��������&gt;K6c˧��mP</td></tr><tr><td>enter</td><td><code>e08d706b3e4ce964b632746cf568913cb93f1ed36476fbb0494b80ed17c5975c</code></td><td>⚠️</td><td>*** WARNING : deprecated key derivation used.
+Using -iter or -pbkdf2 would be better.
+bad decrypt
+40877AD9A77F0000:error:1C800064:Provider routines:ossl_cipher_unpadblock:bad decrypt:../providers/implementations/ciphers/ciphercommon_block.c:124:</td></tr><tr><td>matrixsumlistenter</td><td><code>9e191ca45828034621d4a035572afecb024300bb73c91af0350973170e56f020</code></td><td>⚠️</td><td>*** WARNING : deprecated key derivation used.
+Using -iter or -pbkdf2 would be better.
+bad decrypt
+4067233AE97F0000:error:1C800064:Provider routines:ossl_cipher_unpadblock:bad decrypt:../providers/implementations/ciphers/ciphercommon_block.c:124:</td></tr><tr><td>lastwordsbeforearchichoice</td><td><code>77094e7a1591fb81379f1582cf88db5aa6ab8e77176a4d8428a1ff5decfd102d</code></td><td>✅</td><td>printable: �~3t��w=`k��R;�&quot;;nI@K��Y|b����w?.����ݼ�x~��&#x27;~�zBUe&amp;j�&gt;@��</td></tr><tr><td>thispassword</td><td><code>74c1d7592daf4f89b0a7ba5e368bb59cc9e19c6a4ebb7f33cd8ccf8f3edacac0</code></td><td>⚠️</td><td>*** WARNING : deprecated key derivation used.
+Using -iter or -pbkdf2 would be better.
+bad decrypt
+40E73061A17F0000:error:1C800064:Provider routines:ossl_cipher_unpadblock:bad decrypt:../providers/implementations/ciphers/ciphercommon_block.c:124:</td></tr><tr><td>theseedisplanted</td><td><code>6e3f5a7baf924d8546f5f7af94a43b8424e3c810983f9795eb8451ad4243d860</code></td><td>⚠️</td><td>*** WARNING : deprecated key derivation used.
+Using -iter or -pbkdf2 would be better.
+bad decrypt
+40C77879997F0000:error:1C800064:Provider routines:ossl_cipher_unpadblock:bad decrypt:../providers/implementations/ciphers/ciphercommon_block.c:124:</td></tr><tr><td>causality</td><td><code>eb3efb5151e6255994711fe8f2264427ceeebf88109e1d7fad5b0a8b6d07e5bf</code></td><td>⚠️</td><td>*** WARNING : deprecated key derivation used.
+Using -iter or -pbkdf2 would be better.
+bad decrypt
+4057DD2FB37F0000:error:1C800064:Provider routines:ossl_cipher_unpadblock:bad decrypt:../providers/implementations/ciphers/ciphercommon_block.c:124:</td></tr><tr><td>phase3_hash</td><td><code>1a57c572caf3cf722e41f5f9cf99ffacff06728a43032dd44c481c77d2ec30d5</code></td><td>⚠️</td><td>*** WARNING : deprecated key derivation used.
+Using -iter or -pbkdf2 would be better.
+bad decrypt
+4057981D517F0000:error:1C800064:Provider routines:ossl_cipher_unpadblock:bad decrypt:../providers/implementations/ciphers/ciphercommon_block.c:124:</td></tr><tr><td>phase32_hash</td><td><code>250f37726d6862939f723edc4f993fde9d33c6004aab4f2203d9ee489d61ce4c</code></td><td>⚠️</td><td>*** WARNING : deprecated key derivation used.
+Using -iter or -pbkdf2 would be better.
+bad decrypt
+4077D140137F0000:error:1C800064:Provider routines:ossl_cipher_unpadblock:bad decrypt:../providers/implementations/ciphers/ciphercommon_block.c:124:</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>Next-Step Experiment Notes</h2>
+    <ul>
+      <li>Evaluate alternate interpretations of <code>matrixsumlist</code> as a matrix operation.</li>
+      <li>Try combined keys (matrixsumlist + enter + lastwordsbeforearchichoice).</li>
+      <li>Brute-force variants of Matrix quotes from the Architect scene.</li>
+      <li>Search for additional keys hinted by "sha256 ans too".</li>
+    </ul>
+  </div>
+</body>
+</html>

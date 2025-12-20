@@ -126,6 +126,16 @@ The following password patterns have been tested without success:
 
 4. **First hint = last command** - The phrase suggests the solution involves using an early puzzle element as the final key.
 
+## Numerical Motifs Worth Testing
+
+Several dangling hints and community comments reference recurring mathematical constants and digit patterns that have not been folded into the password search yet:
+
+- **3-6-9 pattern** – Tesla famously called these the "keys to the universe". Try treating them as a repeating passphrase (`369369...`) or as offsets when summing the SalPhaselon grid (e.g., summing every 3rd/6th/9th cell in the spiral order).
+- **137 / 1 3 7** – The fine-structure constant (~1/137) appears in many crypto riddles. Candidates: `137`, `1.37`, `0.007297` (α), SHA256 of those values, or appending/prepending them to known strings (`matrixsumlist137`, `theseedisplanted137`).
+- **Pi linkage** – The number π might be used as decimal/hex digits for padding a key. Tests: first 16 digits of π as AES key seed (`3141592653589793`), π concatenated with decoded hints (`enter314159`), or π-derived offsets when reading the abba binaries.
+
+These could explain the "magical number" wording seen in puzzle chatter and may combine with the "sha b e f" (SHA256) instruction. Next steps: script quick trials that hash these motifs alone and attached to `matrixsumlist`, `enter`, and `lastwordsbeforearchichoice` to see if any unlock the AES blobs.
+
 ## Cosmic Duality Section
 
 A separate AES blob exists in the Cosmic Duality section below SalPhaselon. This may require solving SalPhaselon first, or could be an alternative path.

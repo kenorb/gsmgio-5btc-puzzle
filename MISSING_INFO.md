@@ -192,12 +192,24 @@ B5KR/1r5B/2R5/2b1p1p1/2P1k1P1/1p2P2p/1P2P2P/3N1N2 b - - 0 1
 
 ---
 
+## 11. Numerical Motif Clue (3-6-9, 137, π)
+
+Community chatter repeatedly cites "magical" numbers (3-6-9, 1-3-7, pi) but their role is undocumented.
+
+**Questions:**
+- Should these digits be appended/prepended to known strings (e.g., `matrixsumlist137`, `enter314159`)?
+- Are they offsets when reading the SalPhaselon grid (every 3rd/6th/9th cell)?
+- Do SHA256 hashes of these constants unlock any AES blobs?
+
+---
+
 ## Summary Table
 
 | Item | Status | Priority |
 |------|--------|----------|
 | Phase 3.2.1 AES blob | Undecrypted | HIGH |
 | Cosmic Duality blob discrepancy | Needs verification | HIGH |
+| Numerical motifs (3-6-9, 137, π) | Untested | MEDIUM |
 | X 2 S H 4 Y 0 Q B 15 formula | Partially decoded | MEDIUM |
 | SalPhaseion decoded strings usage | Unknown | HIGH |
 | Colored letter significance | Undocumented | MEDIUM |
