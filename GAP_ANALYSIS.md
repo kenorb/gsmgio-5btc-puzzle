@@ -124,50 +124,393 @@ This is DIFFERENT from Cosmic Duality and may contain additional clues.
 
 ---
 
-## Approaches NOT Yet Attempted
+## Approaches NOT Yet Attempted (Detailed)
 
-### Cryptographic
+### 1. Elliptic Curve Operations (secp256k1)
 
-1. **Elliptic Curve Operations**
-   - Using decrypted data as ECDSA components
-   - secp256k1 curve operations (Bitcoin's curve)
-   - Point multiplication with derived values
+Bitcoin uses the secp256k1 elliptic curve for all cryptographic operations. The puzzle may require EC math to derive the final private key.
 
-2. **Key Derivation Functions**
-   - PBKDF2 with puzzle values
-   - scrypt with known parameters
-   - Argon2 variations
+**Specific approaches to try:**
 
-3. **Alternative Block Cipher Modes**
-   - AES-GCM, AES-CTR
-   - ChaCha20-Poly1305
+```python
+# Using the Cosmic Duality output as EC components
+from ecdsa import SECP256k1, SigningKey, VerifyingKey
 
-4. **Multi-layer XOR**
-   - XOR chain of all derived passwords
-   - XOR with Bitcoin address bytes
+# Try 1: First 32 bytes as raw private key
+cosmic_output_32 = bytes.fromhex("44d19415009a2929a83b2f4e0da7b180d12f8b341cb879dd769ade1f8d399d40")
+try:
+    sk = SigningKey.from_string(cosmic_output_32, curve=SECP256k1)
+    print(f"Private key WIF: {sk.to_string().hex()}")
+except:
+    pass
 
-### Steganographic
+# Try 2: Scalar multiplication with known points
+# G = generator point of secp256k1
+# Try: derived_key * G to see if result matches puzzle address
 
-5. **Website Analysis**
-   - Current gsmg.io source code
-   - Hidden endpoints beyond documented
-   - JavaScript analysis
+# Try 3: Point addition/subtraction with multiple derived values
+# Combine the 7 password hashes using EC point operations instead of XOR
 
-6. **Image Deep Analysis**
-   - LSB extraction with various bit planes
-   - Frequency domain analysis (DCT coefficients)
-   - Color channel separation
+# Try 4: Check if output is a compressed/uncompressed public key
+# 33 bytes (compressed) or 65 bytes (uncompressed)
+```
 
-### Mathematical
+**Untested EC operations:**
+- [ ] Treat 1327-byte output as multiple EC points
+- [ ] Use X 2 S H 4 Y 0 Q B 15 result as scalar multiplier
+- [ ] Derive child keys using BIP32 with puzzle values as chain code
+- [ ] Check if any 32-byte segment is valid private key for puzzle address
+- [ ] Point halving operations (relates to "HALF AND BETTER HALF"?)
 
-7. **Number Theory**
-   - Modular arithmetic with X 2 S H 4 Y 0 Q B 15
-   - Prime factorization of derived numbers
-   - Fibonacci/Lucas sequences
+---
 
-8. **Matrix Operations**
-   - The 14×14 binary matrix as transformation matrix
-   - Row/column operations producing keys
+### 2. Key Derivation Functions (PBKDF2, scrypt)
+
+The puzzle may use key stretching/derivation beyond simple SHA256.
+
+**Specific approaches to try:**
+
+```python
+import hashlib
+from Crypto.Protocol.KDF import PBKDF2, scrypt
+
+# Known values to use as inputs
+passwords = ["matrixsumlist", "enter", "lastwordsbeforearchichoice",
+             "thispassword", "matrixsumlist", "yourlastcommand", "secondanswer"]
+salt_candidates = [
+    b"GSMG",
+    b"gsmg.io",
+    b"1GSMG1JC9wtdSwfwApgj2xcmJPAwx7prBe",
+    bytes.fromhex("2d3f6fe06dc950e6"),  # Cosmic Duality salt
+    b"causality",
+    b"THEMATRIXHASYOU",
+]
+
+# PBKDF2 attempts
+for pwd in passwords:
+    for salt in salt_candidates:
+        for iterations in [1000, 10000, 100000, 2048, 4096]:
+            key = PBKDF2(pwd.encode(), salt, dkLen=32, count=iterations)
+            # Check if this produces valid private key for puzzle address
+
+# scrypt attempts (Bitcoin uses N=16384, r=8, p=1 for BIP38)
+for pwd in passwords:
+    for salt in salt_candidates:
+        key = scrypt(pwd.encode(), salt, key_len=32, N=16384, r=8, p=1)
+        # Check against puzzle address
+```
+
+**Untested KDF operations:**
+- [ ] PBKDF2 with concatenated passwords
+- [ ] scrypt with Bitcoin BIP38 parameters
+- [ ] Argon2id with puzzle-specific parameters
+- [ ] HKDF (HMAC-based KDF) expansion
+- [ ] bcrypt with known salts
+- [ ] Use iteration count from puzzle clues (e.g., 1616 from Bitcoin source line)
+
+---
+
+### 3. Website Source Code Analysis
+
+The gsmg.io website may contain hidden clues not yet discovered.
+
+**Specific approaches to try:**
+
+```bash
+# Fetch and analyze main puzzle page
+curl -s https://gsmg.io/puzzle > puzzle_page.html
+curl -s https://gsmg.io/puzzle -I  # Check headers
+
+# Look for hidden elements
+grep -i "hidden\|display:none\|visibility:hidden" puzzle_page.html
+grep -i "comment\|<!--" puzzle_page.html
+
+# Check for JavaScript files
+grep -oP 'src="[^"]*\.js"' puzzle_page.html | while read js; do
+    curl -s "https://gsmg.io/$js" > "${js##*/}"
+done
+
+# Check robots.txt and sitemap
+curl -s https://gsmg.io/robots.txt
+curl -s https://gsmg.io/sitemap.xml
+
+# Try common hidden endpoints
+for path in admin api secret key private hidden .git .env config; do
+    curl -s -o /dev/null -w "%{http_code} $path\n" "https://gsmg.io/$path"
+done
+
+# Check SSL certificate for hidden info
+echo | openssl s_client -connect gsmg.io:443 2>/dev/null | openssl x509 -text
+
+# Wayback Machine for historical versions
+curl -s "https://web.archive.org/cdx/search/cdx?url=gsmg.io/*&output=json"
+```
+
+**Untested website analysis:**
+- [ ] Full JavaScript deobfuscation and analysis
+- [ ] WebSocket connections check
+- [ ] Cookie/localStorage inspection
+- [ ] API endpoint enumeration
+- [ ] DNS TXT records for gsmg.io domain
+- [ ] Historical page versions via Wayback Machine
+- [ ] HTTP response header analysis (X-* headers)
+- [ ] Check all known URLs for additional hidden forms
+
+---
+
+### 4. LSB Steganography in Images
+
+The puzzle images may contain hidden data in least significant bits.
+
+**Specific approaches to try:**
+
+```python
+from PIL import Image
+import numpy as np
+
+def extract_lsb(image_path, bits=1, channels='RGB'):
+    """Extract LSB data from image"""
+    img = Image.open(image_path)
+    pixels = np.array(img)
+
+    extracted_bits = []
+    for channel in range(pixels.shape[2] if len(pixels.shape) > 2 else 1):
+        for row in pixels:
+            for pixel in row:
+                if len(pixels.shape) > 2:
+                    val = pixel[channel]
+                else:
+                    val = pixel
+                for bit in range(bits):
+                    extracted_bits.append((val >> bit) & 1)
+
+    # Convert bits to bytes
+    result = bytearray()
+    for i in range(0, len(extracted_bits), 8):
+        byte = 0
+        for j in range(8):
+            if i + j < len(extracted_bits):
+                byte |= extracted_bits[i + j] << j
+        result.append(byte)
+
+    return bytes(result)
+
+# Images to analyze
+images = [
+    "puzzle.png",
+    "phase2.png",
+    "phase3.png",
+    "theseedisplanted.png",
+    "SalPhaselonCosmicDuality.png",
+    "photo_2020-04-26_09-24-30.jpg"
+]
+
+for img in images:
+    for bits in [1, 2, 4]:
+        data = extract_lsb(img, bits)
+        # Check for known headers: PNG (89504E47), JPEG (FFD8FF), PK zip (504B0304)
+        # Check for ASCII text
+        # Check for base64 patterns
+        # Check for "Salted__" AES header
+```
+
+**Untested steganography approaches:**
+- [ ] LSB extraction in different bit orders (MSB first, row-wise, column-wise)
+- [ ] Alpha channel analysis in PNG files (puzzle.png is RGBA)
+- [ ] DCT coefficient analysis in JPEG (photo_2020-04-26_09-24-30.jpg)
+- [ ] Palette-based steganography in indexed images
+- [ ] Color histogram anomaly detection
+- [ ] Fourier transform frequency domain analysis
+- [ ] Blue/Yellow channel specific extraction (puzzle color scheme)
+- [ ] Knight piece in puzzle.png - check pixels around it specifically
+- [ ] QR code in puzzle.png - verify it decodes correctly, check for overlay data
+- [ ] Check EXIF GPS coordinates for hidden meaning
+
+---
+
+### 5. Matrix Operations on 14×14 Binary
+
+The original puzzle is a 14×14 binary matrix. Beyond spiral decoding, matrix math may reveal more.
+
+**Specific approaches to try:**
+
+```python
+import numpy as np
+
+# The original 14x14 binary matrix
+matrix = np.array([
+    [0,0,1,1,0,1,0,0,1,0,1,1,0,0],
+    [1,1,1,1,0,0,1,1,1,0,1,0,1,1],
+    [1,1,0,1,1,1,0,1,0,0,1,0,0,1],
+    [0,1,1,0,1,0,0,0,0,1,1,1,0,1],
+    [0,1,1,0,0,0,1,1,0,0,0,1,1,0],
+    [1,0,0,1,1,0,0,0,1,0,0,0,1,1],
+    [1,0,0,1,1,1,0,0,0,1,0,0,0,0],
+    [1,1,1,0,0,0,0,0,0,0,1,0,0,0],
+    [0,0,0,1,1,1,0,1,1,1,1,1,0,1],
+    [1,1,1,1,1,1,0,0,1,1,0,0,0,1],
+    [1,1,0,1,0,0,0,0,0,1,1,0,1,1],
+    [1,1,1,1,0,0,1,0,1,0,1,1,0,0],
+    [0,1,0,1,1,1,0,1,0,0,0,1,1,0],
+    [0,1,1,0,1,1,0,1,1,0,1,0,1,1]
+])
+
+# Matrix operations to try:
+# 1. Determinant (mod 2 for binary)
+det = int(round(np.linalg.det(matrix))) % 2
+print(f"Determinant mod 2: {det}")
+
+# 2. Eigenvalues
+eigenvalues = np.linalg.eigvals(matrix)
+print(f"Eigenvalues: {eigenvalues}")
+
+# 3. Matrix rank
+rank = np.linalg.matrix_rank(matrix)
+print(f"Rank: {rank}")
+
+# 4. Row sums and column sums
+row_sums = matrix.sum(axis=1)
+col_sums = matrix.sum(axis=0)
+print(f"Row sums: {row_sums}")  # Could be ASCII or key bytes
+print(f"Col sums: {col_sums}")
+
+# 5. Diagonal elements
+main_diag = np.diag(matrix)
+anti_diag = np.diag(np.fliplr(matrix))
+print(f"Main diagonal: {main_diag}")
+print(f"Anti diagonal: {anti_diag}")
+
+# 6. Matrix multiplication with itself
+squared = np.matmul(matrix, matrix)
+# Check if result encodes anything
+
+# 7. XOR with key matrix (derived from passwords?)
+# 8. Transpose and re-read spiral
+# 9. Rotate 90/180/270 degrees and decode
+# 10. Read in different spiral directions (clockwise, from other corners)
+```
+
+**Untested matrix operations:**
+- [ ] Matrix inverse (if exists) in GF(2)
+- [ ] Row reduction / RREF form
+- [ ] LU decomposition
+- [ ] Treat as adjacency matrix for graph analysis
+- [ ] Conway's Game of Life iterations
+- [ ] Cellular automata rules (Rule 30, Rule 110)
+- [ ] 2D Fourier transform
+- [ ] Row/column permutations based on password orderings
+- [ ] Stack multiple matrices from different phases
+- [ ] Use matrix as transformation for other puzzle data
+
+---
+
+### 6. XOR Chains with All Passwords
+
+Multi-step XOR operations may reveal hidden data.
+
+**Specific approaches to try:**
+
+```python
+import hashlib
+
+# All known significant strings
+all_strings = [
+    # Phase passwords
+    "theflowerblossomsthroughwhatseemstobeaconcretesurface",
+    "causality",
+    "Safenet", "Luna", "HSM",
+    "11110",
+    "0x736B6E616220726F662074756F6C69616220646E6F63657320666F206B6E697262206E6F20726F6C6C65636E61684320393030322F6E614A2F33302073656D695420656854",
+    "B5KR/1r5B/2R5/2b1p1p1/2P1k1P1/1p2P2p/1P2P2P/3N1N2 b - - 0 1",
+
+    # SalPhaselon passwords
+    "matrixsumlist", "enter", "lastwordsbeforearchichoice",
+    "thispassword", "yourlastcommand", "secondanswer",
+
+    # Other significant values
+    "THEMATRIXHASYOU",
+    "jacquefrescogiveitjustonesecondheisenbergsuncertaintyprinciple",
+    "HASHTHETEXT",
+    "gsmg.io/theseedisplanted",
+    "1GSMG1JC9wtdSwfwApgj2xcmJPAwx7prBe",
+    "GSMGIO5BTCPUZZLECHALLENGE",
+]
+
+# Known hashes
+hashes = {
+    "causality": "eb3efb5151e6255994711fe8f2264427ceeebf88109e1d7fad5b0a8b6d07e5bf",
+    "7part": "1a57c572caf3cf722e41f5f9cf99ffacff06728a43032dd44c481c77d2ec30d5",
+    "phase32": "250f37726d6862939f723edc4f993fde9d33c6004aab4f2203d9ee489d61ce4c",
+    "salphaselon_entry": "89727c598b9cd1cf8873f27cb7057f050645ddb6a7a157a110239ac0152f6a32",
+    "cosmic_key": "a795de117e472590e572dc193130c763e3fb555ee5db9d34494e156152e50735",
+    "cosmic_output": "4f7a1e4efe4bf6c5581e32505c019657cb7b030e90232d33f011aca6a5e9c081",
+}
+
+def xor_bytes(a, b):
+    """XOR two byte sequences, cycling shorter one"""
+    result = bytearray()
+    for i in range(max(len(a), len(b))):
+        result.append(a[i % len(a)] ^ b[i % len(b)])
+    return bytes(result)
+
+# XOR all hashes together in sequence
+result = bytes.fromhex(hashes["causality"])
+for name, h in list(hashes.items())[1:]:
+    result = xor_bytes(result, bytes.fromhex(h))
+    print(f"After XOR with {name}: {result.hex()[:32]}...")
+
+# XOR cosmic output with various values
+cosmic_output_bytes = bytes.fromhex("44d19415009a2929a83b2f4e0da7b180d12f8b341cb879dd769ade1f8d399d40")
+for s in all_strings:
+    xored = xor_bytes(cosmic_output_bytes, s.encode())
+    # Check if result is valid private key / printable / meaningful
+
+# XOR with Bitcoin address bytes
+btc_addr = "1GSMG1JC9wtdSwfwApgj2xcmJPAwx7prBe"
+import base58
+try:
+    addr_bytes = base58.b58decode(btc_addr)
+    xored = xor_bytes(cosmic_output_bytes, addr_bytes)
+    print(f"XOR with BTC address: {xored.hex()}")
+except:
+    pass
+```
+
+**Untested XOR operations:**
+- [ ] XOR all SHA256 hashes in different orders (7! = 5040 permutations)
+- [ ] XOR with Bitcoin address decoded bytes
+- [ ] XOR pairs of derived values and check results
+- [ ] Rolling XOR with password bytes
+- [ ] XOR first half with second half of Cosmic output ("HALF AND BETTER HALF"?)
+- [ ] XOR with known Bitcoin genesis block data
+- [ ] XOR with the binary matrix flattened to bytes
+- [ ] Create XOR chain: output[i] = data[i] XOR key[i] XOR output[i-1]
+
+---
+
+### 7. Additional Cryptographic Approaches
+
+**Block Cipher Variations:**
+- [ ] AES-128 instead of AES-256
+- [ ] AES-ECB mode (no IV)
+- [ ] AES-CTR mode
+- [ ] Triple DES
+- [ ] Blowfish / Twofish
+- [ ] ChaCha20
+
+**Hash Variations:**
+- [ ] SHA-512 instead of SHA-256
+- [ ] RIPEMD-160 (used in Bitcoin addresses)
+- [ ] Double SHA256 (Bitcoin standard)
+- [ ] SHA256(SHA256(x)) for all derived values
+- [ ] HMAC-SHA256 with puzzle keys
+
+**Bitcoin-Specific:**
+- [ ] WIF encoding/decoding attempts
+- [ ] BIP39 mnemonic derivation
+- [ ] BIP32 hierarchical deterministic paths
+- [ ] Mini private key format (22-30 chars starting with S)
+- [ ] Brain wallet derivation from puzzle phrases
 
 ---
 
