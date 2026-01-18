@@ -133,8 +133,10 @@ def phase3_build_password() -> str:
         "Luna",       # Part 3
         "HSM",        # Part 4
         "11110",      # Part 5: JFK Executive Order 11110
-        "0x736B6E616220726F662074756F6C69616220646E6F63657320666F206B6E697262206E6F20726F6C6C65636E61684320393030322F6E614A2F33302073656D695420656854",  # Part 6
-        "B5KR/1r5B/2R5/2b1p1p1/2P1k1P1/1p2P2p/1P2P2P/3N1N2 b - - 0 1"  # Part 7
+        # Part 6: Genesis block raw data from Bitcoin source code line 1616
+        # This hex string represents the coinbase text from the Bitcoin genesis block
+        "0x736B6E616220726F662074756F6C69616220646E6F63657320666F206B6E697262206E6F20726F6C6C65636E61684320393030322F6E614A2F33302073656D695420656854",
+        "B5KR/1r5B/2R5/2b1p1p1/2P1k1P1/1p2P2p/1P2P2P/3N1N2 b - - 0 1"  # Part 7: Chess position notation
     ]
     
     concatenated = ''.join(parts)
@@ -166,25 +168,21 @@ def salphaseion_hash() -> str:
 
 def beaufort_decrypt(ciphertext: str, key: str) -> str:
     """
-    Decrypt Beaufort cipher
+    Decrypt Beaufort cipher (wrapper for cipher_tools implementation)
+    Beaufort cipher: P = K - C (mod 26)
+    
+    Args:
+        ciphertext: Encrypted text
+        key: Decryption key
+    
+    Returns:
+        Decrypted plaintext
+    
+    Note: This is kept for backward compatibility.
+    Use cipher_tools.beaufort_cipher_decrypt for the main implementation.
     """
-    key = key.upper()
-    ciphertext = ciphertext.upper()
-    result = []
-    key_index = 0
-    
-    for char in ciphertext:
-        if char.isalpha():
-            # Beaufort cipher: P = K - C (mod 26)
-            c = ord(char) - ord('A')
-            k = ord(key[key_index % len(key)]) - ord('A')
-            p = (k - c) % 26
-            result.append(chr(p + ord('A')))
-            key_index += 1
-        else:
-            result.append(char)
-    
-    return ''.join(result)
+    from cipher_tools import beaufort_cipher_decrypt
+    return beaufort_cipher_decrypt(ciphertext, key)
 
 
 def binary_to_ascii(binary_str: str) -> str:

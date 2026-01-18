@@ -13,6 +13,27 @@ from cipher_tools import (
 )
 
 
+# Test data constants
+BINARY_SEGMENT_1 = ("a b b a b b a b a b b a a a a b a b b b a b a a a b b b a a b a a b b a b a a b "
+                    "a b b b b a a a a b b b a a b b a b b b a b a b a b b a b b a b a b b a b b a a a "
+                    "b b a b a a b a b b b a a b b a b b b a b a a")
+BINARY_SEGMENT_2 = "a b b a a b a b a b b a b b b a a b b b a b a a a b b a a b a b a b b b a a b a"
+
+HEX_SEGMENT_1 = ("a g d a f a o a h e i e c g g c h g i c b b h c g b e h c f c o a b i c f d h h "
+                 "c d b b c a g b d a i o b b g b e a d e d d e")
+HEX_SEGMENT_2 = "c f o b f d h g d o b d g o o i i g d o c d a o o f i d h"
+
+CHAR_MAP = {
+    'a': '1', 'b': '2', 'c': '3', 'd': '4', 'e': '5',
+    'f': '6', 'g': '7', 'h': '8', 'i': '9', 'o': '0'
+}
+
+
+def format_test_name(name: str) -> str:
+    """Format test function name for readable output"""
+    return name.replace('_', ' ').replace('test ', 'Test ').title()
+
+
 def test_phase2_hash():
     """Test Phase 2 password hash"""
     expected = "eb3efb5151e6255994711fe8f2264427ceeebf88109e1d7fad5b0a8b6d07e5bf"
@@ -47,14 +68,12 @@ def test_salphaseion_hash():
 
 def test_binary_decode():
     """Test binary decoding"""
-    binary1 = "a b b a b b a b a b b a a a a b a b b b a b a a a b b b a a b a a b b a b a a b a b b b b a a a a b b b a a b b a b b b a b a b a b b a b b a b a b b a b b a a a b b a b a a b a b b b a a b b a b b b a b a a"
     expected1 = "matrixsumlist"
-    result1 = binary_to_ascii(binary1)
+    result1 = binary_to_ascii(BINARY_SEGMENT_1)
     assert result1 == expected1, f"Binary 1 mismatch: {result1} != {expected1}"
     
-    binary2 = "a b b a a b a b a b b a b b b a a b b b a b a a a b b a a b a b a b b b a a b a"
     expected2 = "enter"
-    result2 = binary_to_ascii(binary2)
+    result2 = binary_to_ascii(BINARY_SEGMENT_2)
     assert result2 == expected2, f"Binary 2 mismatch: {result2} != {expected2}"
     
     print("✓ Binary decoding correct")
@@ -82,19 +101,12 @@ def test_vic_cipher():
 
 def test_hex_decode():
     """Test hex decoding"""
-    char_map = {
-        'a': '1', 'b': '2', 'c': '3', 'd': '4', 'e': '5',
-        'f': '6', 'g': '7', 'h': '8', 'i': '9', 'o': '0'
-    }
-    
-    hex1 = "a g d a f a o a h e i e c g g c h g i c b b h c g b e h c f c o a b i c f d h h c d b b c a g b d a i o b b g b e a d e d d e"
     expected1 = "lastwordsbeforearchichoice"
-    result1 = base10_to_base16_decode(hex1, char_map)
+    result1 = base10_to_base16_decode(HEX_SEGMENT_1, CHAR_MAP)
     assert result1 == expected1, f"Hex 1 mismatch: {result1} != {expected1}"
     
-    hex2 = "c f o b f d h g d o b d g o o i i g d o c d a o o f i d h"
     expected2 = "thispassword"
-    result2 = base10_to_base16_decode(hex2, char_map)
+    result2 = base10_to_base16_decode(HEX_SEGMENT_2, CHAR_MAP)
     assert result2 == expected2, f"Hex 2 mismatch: {result2} != {expected2}"
     
     print("✓ Hex decoding correct")
@@ -132,10 +144,10 @@ def run_all_tests():
         try:
             test()
         except AssertionError as e:
-            print(f"✗ {test.__name__}: {e}")
+            print(f"✗ {format_test_name(test.__name__)}: {e}")
             failed += 1
         except Exception as e:
-            print(f"✗ {test.__name__}: Unexpected error: {e}")
+            print(f"✗ {format_test_name(test.__name__)}: Unexpected error: {e}")
             failed += 1
     
     print()
