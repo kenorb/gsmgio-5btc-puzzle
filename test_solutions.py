@@ -31,7 +31,10 @@ CHAR_MAP = {
 
 def format_test_name(name: str) -> str:
     """Format test function name for readable output"""
-    return name.replace('_', ' ').replace('test ', 'Test ').title()
+    # Remove 'test_' prefix and replace underscores with spaces, then title case
+    if name.startswith('test_'):
+        name = name[5:]  # Remove 'test_' prefix
+    return name.replace('_', ' ').title()
 
 
 def test_phase2_hash():

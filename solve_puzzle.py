@@ -10,6 +10,13 @@ import subprocess
 import sys
 from typing import List, Tuple
 
+# Import cipher_tools for Beaufort cipher
+try:
+    from cipher_tools import beaufort_cipher_decrypt
+except ImportError:
+    # Fallback if cipher_tools not available
+    beaufort_cipher_decrypt = None
+
 
 def sha256_hash(text: str) -> str:
     """Calculate SHA256 hash of text."""
@@ -134,7 +141,8 @@ def phase3_build_password() -> str:
         "HSM",        # Part 4
         "11110",      # Part 5: JFK Executive Order 11110
         # Part 6: Genesis block raw data from Bitcoin source code line 1616
-        # This hex string represents the coinbase text from the Bitcoin genesis block
+        # Hex decodes to: "The Times 03/Jan/2009 Chancellor on brink of second bailout for banks"
+        # This is the famous newspaper headline embedded in Bitcoin's first block
         "0x736B6E616220726F662074756F6C69616220646E6F63657320666F206B6E697262206E6F20726F6C6C65636E61684320393030322F6E614A2F33302073656D695420656854",
         "B5KR/1r5B/2R5/2b1p1p1/2P1k1P1/1p2P2p/1P2P2P/3N1N2 b - - 0 1"  # Part 7: Chess position notation
     ]
@@ -181,8 +189,26 @@ def beaufort_decrypt(ciphertext: str, key: str) -> str:
     Note: This is kept for backward compatibility.
     Use cipher_tools.beaufort_cipher_decrypt for the main implementation.
     """
-    from cipher_tools import beaufort_cipher_decrypt
-    return beaufort_cipher_decrypt(ciphertext, key)
+    if beaufort_cipher_decrypt is not None:
+        return beaufort_cipher_decrypt(ciphertext, key)
+    
+    # Fallback implementation if cipher_tools not available
+    key = key.upper()
+    ciphertext = ciphertext.upper()
+    result = []
+    key_index = 0
+    
+    for char in ciphertext:
+        if char.isalpha():
+            c = ord(char) - ord('A')
+            k = ord(key[key_index % len(key)]) - ord('A')
+            p = (k - c) % 26
+            result.append(chr(p + ord('A')))
+            key_index += 1
+        else:
+            result.append(char)
+    
+    return ''.join(result)
 
 
 def binary_to_ascii(binary_str: str) -> str:

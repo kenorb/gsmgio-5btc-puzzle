@@ -112,14 +112,23 @@ def base10_to_base16_decode(text: str, char_map: dict) -> str:
     # Convert to actual digits
     digits = ''.join(char_map.get(c, c) for c in text.replace(' ', ''))
     
+    # Validate input length to prevent memory issues
+    if len(digits) > 1000:
+        return f"Input too long: {len(digits)} digits (max 1000)"
+    
     # Convert from base 10 to base 16
     try:
         # Treat as base-10 number and convert to hex
         hex_value = hex(int(digits))[2:]  # Remove '0x' prefix
         
-        # Decode hex to ASCII
-        result = bytes.fromhex(hex_value).decode('ascii', errors='ignore')
-        return result
+        # Decode hex to ASCII with explicit error handling
+        try:
+            result = bytes.fromhex(hex_value).decode('ascii')
+            return result
+        except UnicodeDecodeError as e:
+            # Use replace to show problematic characters instead of hiding them
+            result = bytes.fromhex(hex_value).decode('ascii', errors='replace')
+            return f"{result} (Warning: Non-ASCII characters replaced)"
     except ValueError as e:
         return f"Decoding error: {e}"
 
