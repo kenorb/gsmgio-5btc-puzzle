@@ -6,3 +6,4 @@ This folder contains a list of currently unverified, or unverifiable, solutions 
 | Solution Name | Phase | Link | Description |
 | --------------|-------|------| ------------|
 | My Solution   | Phase 3.2 | [FAKE AES ATTEMPT #1](./sample_3.2_attempt_1.md) | I attempted to brute force the AES using the matrix movie's script |
+| 1141 Coincidence | Phase 3.2 | [1141 Slice](./phase3.2_1141.md)| coincidence |
