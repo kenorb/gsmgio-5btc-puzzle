@@ -149,6 +149,16 @@ A separate AES blob exists in the Cosmic Duality section below SalPhaselon. This
 5. **Check for steganography** - Images may contain hidden data
 6. **Consider multi-step passwords** - May need to combine multiple elements
 
+### New 2026 Test: "HASH THE TEXT" Literally
+
+The Decentraland audio hint "HASHTHETEXT" was interpreted as hashing the Beaufort-decrypted paragraph from Phase 3.2.1. Using the exact uppercase paragraph (one sentence per line, no extra whitespace) produces:
+
+```
+SHA256(beaufort_paragraph) = 216411b7026a3661134f4dcc140d49b0b3599b683ed2afa837ab3ef4244597ba
+```
+
+Applying this digest directly as the AES-256-CBC password for the 64-byte blob immediately after the Beaufort section still results in an OpenSSL "bad decrypt" error. The hint therefore likely requires a different text selection (e.g., EBCDIC 1141 bytes, lowercase, or punctuation preserved) or an additional transformation such as PBKDF2.
+
 ## Comprehensive Password Testing (November 2025)
 
 ### Passwords Tested (500+ combinations)

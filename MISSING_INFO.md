@@ -16,6 +16,8 @@ gKlIi8aaqY5gpJPPEzW1n9n3/26qs4zstWtPKF8Zs/BTNN4IiEh4qu18mdC0NAv4
 **Possible passwords to try:**
 - Derived from "HASHTHETEXT" hint
 - Related to the VIC cipher output
+**Tested (2026-06-XX):**
+- SHA256 of the Beaufort plaintext paragraph (`216411b7026a3661134f4dcc140d49b0b3599b683ed2afa837ab3ef4244597ba`) → **bad decrypt**
 
 ### Cosmic Duality AES Blob Discrepancy
 **README has (spaced):**
