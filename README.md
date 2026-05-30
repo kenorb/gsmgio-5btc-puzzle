@@ -101,8 +101,46 @@ Useful OpenSSL flags:
 
 [Link to notebook](./phase0.ipynb)
 
-* "Follow the white rabbit"
 * white/yellow square = 0, black/blue square = 1
+
+14x14 GRID
+```
+0 0 1 1 0 1 0 0 1 0 1 1 0 0
+1 1 1 1 0 0 1 1 1 1 0 1 0 1
+1 1 0 1 1 1 0 1 0 0 1 0 0 1
+0 1 1 0 1 0 0 0 0 1 1 1 0 1
+0 1 1 0 0 0 1 1 0 0 0 1 1 0
+1 0 0 1 1 0 0 0 1 0 0 0 1 1
+1 0 0 1 1 1 0 0 0 1 0 0 0 0
+1 1 1 0 0 0 0 0 0 0 1 0 0 0
+0 0 0 1 1 1 0 1 1 1 1 1 0 1
+1 1 1 1 1 1 0 0 1 1 0 0 0 1
+1 1 0 1 0 0 0 0 0 0 1 1 0 1
+1 1 1 1 0 0 1 1 0 1 0 1 1 0
+0 1 0 1 1 1 0 1 0 0 0 1 1 0
+0 1 1 0 1 1 0 1 1 0 1 0 1 1
+```
+
+White = 0 Black = 1 Yellow = 2 Blue = 3 
+
+14x14 GRID
+```
+0 0 1 1 0 3 0 0 1 0 1 1 0 2 
+1 1 3 1 0 0 1 1 1 0 3 0 1 1
+1 1 0 1 1 1 0 3 0 0 1 0 0 1
+0 1 1 0 3 0 0 0 0 1 1 1 0 1 
+0 3 1 0 0 0 1 1 0 2 0 1 1 0 
+1 0 0 1 1 0 2 0 1 0 2 0 1 1 
+1 0 0 3 1 1 0 0 0 1 0 2 0 0 
+3 1 1 0 0 0 0 0 0 0 1 0 2 0
+0 0 0 1 1 3 0 1 1 1 1 1 0 3
+1 1 3 1 1 1 2 0 1 1 0 0 0 1 
+1 1 0 1 0 0 0 2 0 1 1 0 1 1
+1 1 1 1 0 0 1 0 3 0 1 1 0 0
+0 3 0 1 1 1 0 1 0 2 0 1 1 0 
+0 1 3 0 1 1 0 1 1 0 3 0 1 1
+```
+* "Follow the white rabbit"
 * Unwrap the squares counter-clockwise
 * 8 squares per byte, ascii
 * result is "gsmg.io/theseedisplanted"
@@ -233,6 +271,9 @@ Not an official hint, and could be Jrk trolling
 Bitcoin halving. Half of the prize was moved to [17ucy1K9ZUAaoY6JVtM932W9jUp5LXfyHa](https://www.blockchain.com/explorer/addresses/BTC/17ucy1K9ZUAaoY6JVtM932W9jUp5LXfyHa)
 
 And Jrk mentions a second door.
+```
+Let's see what bitcoin is worth the next halving and who knows what you'll find after opening the 2nd door. The price is in half, but what does it mean 🤔.
+```
 
 ![Alt text](hints/2020-05-11.png)
 
@@ -281,7 +322,13 @@ More confirmation of salphaseion being the last phase.
 ## 2021-04-01
 
 An April Fools Hint. This might not be a real hint
+```
+R=18
+A=1
+B=2
 
+Telegram message seems to debunk this.
+```
 ![Alt text](<hints/2021-04-01-april fool.png>)
 
 ## 2021-04-16
@@ -313,6 +360,14 @@ See how to [solve it here](./salphaseion.ipynb)
 ## 2021-12-02 Hint
 
 Another Official hint
+
+```
+There is another 
+D
+O
+O
+R
+
 
 ![Alt text](hints/2021-12-02-another-door-hint.png)
 
