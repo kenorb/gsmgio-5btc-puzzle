@@ -345,6 +345,7 @@ It can be noted that the "..." we see in puzzles shows up, and might be replaced
 
 ## 2023-08-06 Hint
 
+<<<<<<< HEAD
 ![Alt text](hints/2023-08-06-1.png)
 
 ![Alt text](hints/2023-08-06-2.png)
@@ -383,3 +384,10 @@ Decoded:
 - Each message is purposely 1 minute apart
 - Again, we're given binary text
 - There's mention of a hint, but what the hint is referring to is ambiguous.
+
+### AES Blob
+
+The following follows the same formatting as previous openssl base64-encoded AES blobs that we encounted in previous stages
+> U 2 F s d G V k X 1 8 6 t Y U 0 h V J B X X U n B U O 7 C 0 + X 4 K U W n W k C v o Z S x b R D 3 w N s G W V H e f v d r d 9 z
+> Q v X 0 t 8 v 3 j P B 4 o k p s p x e b R i 6 s E 1 B M l 5 H I 8 R k u + K e j U q T v d W O X 6 n Q j S p e p X w G u N / j J
+  conclusion is lastwordsbeforearchichoice
