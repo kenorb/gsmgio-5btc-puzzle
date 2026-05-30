@@ -6,6 +6,34 @@ _**Unverified Solutions**_: If you have an unverified solution, please submit a 
 
 If you find this useful, please donate BTC at [bc1qla7lmz3guzz3cezhfl72r0w546a4gyacpu530r](https://www.blockchain.com/btc/address/bc1qla7lmz3guzz3cezhfl72r0w546a4gyacpu530r)
 
+## 🎯 Automated Solution Tools
+
+This repository now includes complete solution scripts that automate all known puzzle phases:
+
+- **[solve_puzzle.py](./solve_puzzle.py)** - Main solver generating all passwords and hashes
+- **[cipher_tools.py](./cipher_tools.py)** - Beaufort cipher, VIC cipher, and hex decoding
+- **[decrypt_phases.sh](./decrypt_phases.sh)** - OpenSSL command generator
+- **[demo_solution.py](./demo_solution.py)** - Comprehensive walkthrough demonstration
+
+📖 See [SOLUTION.md](./SOLUTION.md) for complete solution guide  
+⚡ See [QUICKREF.md](./QUICKREF.md) for quick reference
+
+### Quick Start
+```bash
+# Generate all solution hashes and passwords
+python3 solve_puzzle.py
+
+# Test cipher implementations
+python3 cipher_tools.py
+
+# Generate OpenSSL decryption commands
+./decrypt_phases.sh
+
+# See complete walkthrough
+python3 demo_solution.py
+```
+
+---
 
 - [Summary](#summary)
 - [Tools](#tools)
