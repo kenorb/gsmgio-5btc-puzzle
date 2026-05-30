@@ -4,6 +4,8 @@ This repository contains all publicly known hints for GSMG.IO 5 BTC puzzle chall
 
 _**Unverified Solutions**_: If you have an unverified solution, please submit a PR modifying a file in the [./unverified](./unverified/) folder. Please don't submit Claude/ChatGPT generated solutions, they tend not to be valid or even useful.
 
+If you find this useful, please donate BTC at [1JK27jtvE1wS4VG9k7Zpo8wBufMbYwy3r8](https://www.blockchain.com/btc/address/1JK27jtvE1wS4VG9k7Zpo8wBufMbYwy3r8)
+If you find this useful, please donate BTC at [bc1q4ulncg534st8xvpgapx5su72uvnm6jyskfm7c4](https://www.blockchain.com/btc/address/bc1q4ulncg534st8xvpgapx5su72uvnm6jyskfm7c4)
 If you find this useful, please donate BTC at [bc1qla7lmz3guzz3cezhfl72r0w546a4gyacpu530r](https://www.blockchain.com/btc/address/bc1qla7lmz3guzz3cezhfl72r0w546a4gyacpu530r)
 
 ## 🎯 Automated Solution Tools
@@ -473,4 +475,32 @@ Decoded:
 The following follows the same formatting as previous openssl base64-encoded AES blobs that we encounted in previous stages
 > U 2 F s d G V k X 1 8 6 t Y U 0 h V J B X X U n B U O 7 C 0 + X 4 K U W n W k C v o Z S x b R D 3 w N s G W V H e f v d r d 9 z
 > Q v X 0 t 8 v 3 j P B 4 o k p s p x e b R i 6 s E 1 B M l 5 H I 8 R k u + K e j U q T v d W O X 6 n Q j S p e p X w G u N / j J
-  conclusion is lastwordsbeforearchichoice
+
+Final Phase: Cosmic Duality AES Decryption
+The 7 tokens form the password for the AES blob (Base64 "Salted__" header in cosmic_duality.txt):
+
+matrixsumlist
+enter
+lastwordsbeforearchichoice
+thispassword
+matrixsumlist
+sha256
+theone
+
+Key Derivation:
+
+Compute SHA-256 hash of each token (32 bytes each).
+Sequentially XOR the hashes: key_1 XOR key_2 XOR ... XOR key_7 = 32-byte pre-key.
+Apply EVP_BytesToKey(pre-key + 8-byte salt) to generate AES-256 key/IV.
+
+Decrypted Output (Partial, 1327 bytes; SHA-256: 4f7a1e4efe4bf6c5581e32505c019657cb7b030e90232d33f011aca6a5e9c081):
+
+"THE [redacted] SUM OF ALL CHOICES CONVERGING HERE"
+"THE [redacted] ARCHITECTS CHOICE WAS NEVER YOURS"
+"[redacted] FAILED..."
+"HALF AND BETTER HALF NEED FUNDS TO LIVE"
+"WHEN [redacted] BACK WITH [redacted] RETURNED"
+"FINAL CHOICE AND ITS YOURS TO MAKE"
+"Interesting. Most interesting… [redacted] you uncovered in Phase Three."
+BTC addresses: 1Hxxxxxx (balance: 0 BTC), 1Bxxxxxx (balance: 0 BTC).
+"Complete the [redacted]th attempt. The f[redacted]. If in doubt, ask the architect… or not?"
